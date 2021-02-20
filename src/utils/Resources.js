@@ -9,10 +9,13 @@ import FlowerSource from '../assets/models/Flower.glb';
 import EarthSource from '../assets/models/Earth.glb';
 import LandSource from '../assets/models/Land.glb';
 import DinerSource from '../assets/models/Diner.glb';
+import HotAirBalloonSource from '../assets/models/hotairballoon.glb';
 
 /* OBJ Models */
 import FlyingSaucerSource from '../assets/models/flying/flying sacuer.obj';
 import FlyingSaucerMtl from '../assets/models/flying/flying sacuer.mtl';
+import TRENSource from '../assets/models/tren/TREN.obj';
+import TRENMtl from '../assets/models/tren/TREN.mtl';
 
 /* FBX Models */
 import SambaDancingSource from '../assets/models/Samba Dancing.fbx';
@@ -31,6 +34,11 @@ export default class Resources {
       { name: Constants.MODELS.LAND, source: LandSource, type: 'gltf' },
       { name: Constants.MODELS.DINER, source: DinerSource, type: 'gltf' },
       {
+        name: Constants.MODELS.HOTAIRBALLOON,
+        source: HotAirBalloonSource,
+        type: 'gltf',
+      },
+      {
         name: Constants.MODELS.FLYINGSAUCER,
         source: FlyingSaucerSource,
         material: FlyingSaucerMtl,
@@ -41,9 +49,13 @@ export default class Resources {
         source: SambaDancingSource,
         type: 'fbx',
       },
+      {
+        name: Constants.MODELS.TREN,
+        source: TRENSource,
+        material: TRENMtl,
+        type: 'obj',
+      },
     ];
-
-    this.objects;
 
     this.loadingManager = _loadingManager;
     this.Load(callback);
@@ -121,7 +133,7 @@ export default class Resources {
       Promise.all(p)
         .then((result) => {
           console.log('*** ALL RESOURCES LOADED ***');
-          console.log(this.models);
+          //console.log(this.models);
           callback();
         })
         .catch((error) => {
@@ -144,10 +156,9 @@ export default class Resources {
     switch (objData.type) {
       case 'gltf':
         return modelData.scene;
-        break;
-      case ('obj', 'fbx'):
+      case 'obj':
+      case 'fbx':
         return modelData;
-        break;
     }
   }
 }

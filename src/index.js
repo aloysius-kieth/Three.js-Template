@@ -8,6 +8,7 @@ import Earth from './objects/Earth';
 import GameScene from './scenes/GameScene';
 import PortfolioScene from './scenes/PortfolioScene';
 import Resources from './utils/Resources';
+import Helper from './utils/Helper';
 
 var camera, scene, renderer, loadingManager, controls, resources;
 var clock;
@@ -27,12 +28,20 @@ function init() {
   loadingManager = new THREE.LoadingManager(
     () => {},
     function onProgress(item, loaded, total) {
-      console.log(item, loaded, total);
+      //console.log(item, loaded, total);
+      var loaderText = document.getElementById('loaderText');
+      loaderText.innerHTML =
+        'Loading: ' + Helper.round(loaded / total, 2) * 100 + '%';
+      console.log(loaderText.innerHTML);
     },
     function onError(error) {
       console.log(error);
     }
   );
+
+  loadingManager.onLoad = function () {
+    console.log('*** ALL RESOURCES LOADED ***');
+  };
 
   resources = new Resources(loadingManager, () => {
     setTimeout(function () {
@@ -44,11 +53,10 @@ function init() {
       animate();
     }, 1500);
   });
-  // console.log(resources);
-  // console.log(window.objects);
 
   keyboard = new KeyboardState();
   clock = new THREE.Clock();
+
   // Resize
   window.addEventListener('resize', () => {
     // Save sizes
@@ -65,12 +73,14 @@ function init() {
 
   // Camera
   camera = new THREE.PerspectiveCamera(
-    90,
+    70,
     sizes.width / sizes.height,
     0.1,
-    100
+    2000
   );
-  camera.position.z = 8;
+
+  camera.position.z = 1500;
+  console.log(camera.position);
 
   // Renderer
   renderer = new THREE.WebGLRenderer({
@@ -80,7 +90,7 @@ function init() {
   renderer.setClearColor('#ffffff');
   renderer.setSize(sizes.width, sizes.height);
 
-  controls = new OrbitControls(camera, renderer.domElement);
+  //controls = new OrbitControls(camera, renderer.domElement);
 }
 
 // Loop func
@@ -91,7 +101,7 @@ function animate(timeStamp) {
 }
 
 function update() {
-  controls.update();
+  //controls.update();
   keyboard.update();
 
   // testing keyboard inputs
@@ -106,7 +116,7 @@ function update() {
 function render(timeStamp) {
   // Update
   if (scene != null) {
-    scene.update(timeStamp);
+    scene.update(timeStamp, camera);
   }
 
   // Render

@@ -6,5 +6,7 @@ export default {
     DINER: 'diner',
     FLYINGSAUCER: 'flyingSaucer',
     SAMBA_DANCING_CHARACTER: 'samba',
+    TREN: 'tren',
+    HOTAIRBALLOON: 'hotairballoon',
   },
 };
